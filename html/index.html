@@ -6,21 +6,18 @@
 </head>
 <body>
 <script type="text/javascript">
-  typeof 123; // 'number'
-  console.log(typeof NaN); // 'number'
-  typeof 'str'; // 'string'
-  typeof true; // 'boolean'
-  typeof undefined; // 'undefined'
-  typeof Math.abs; // 'function'
-  console.log(typeof null); // 'object'
-  console.log(typeof []); // 'object'
-  console.log(typeof {}); // 'object'
-
-  console.log(314 .toString()); // SyntaxError
-
-  // 遇到这种情况，要特殊处理一下：
-  123..toString(); // '123', 注意是两个点！
-  (123).toString(); // '123'
+  var url = 'https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20%3D%202151330&format=json';
+  // 从远程地址获取JSON:
+  $.getJSON(url, function (data) {
+    // 获取结果:
+    var city = data.query.results.channel.location.city;
+    var forecast = data.query.results.channel.item.forecast;
+    var result = {
+      city: city,
+      forecast: forecast
+    };
+    console.log(JSON.stringify(result, null, '  '));
+  })
 </script>
 </body>
 </html>
