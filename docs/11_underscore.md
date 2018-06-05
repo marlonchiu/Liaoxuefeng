@@ -188,5 +188,16 @@ underscore为Array提供了许多工具类方法，可以更方便快捷地操�
     // 从0开始大于-10，步长-1:
     _.range(0, -10, -1); // [0, -1, -2, -3, -4, -5, -6, -7, -8, -9]
     ```
+ 
+* `uniq`
+   数组元素去重
+   
+    ```javascript
+    // 请根据underscore官方文档，使用_.uniq对数组元素进行不区分大小写去重：
+      var arr = ['Apple', 'orange', 'banana', 'ORANGE', 'apple', 'PEAR'];
     
+      var result = _.uniq(arr, (x) => x.toLowerCase());
+      console.log(result);  // (4) ["Apple", "orange", "banana", "PEAR"]
+    ```  
+     
 * 更多完整的函数请参考underscore的文档：http://underscorejs.org/#arrays

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Underscore_arrays</title>
+  <script src="https://cdn.bootcss.com/underscore.js/1.9.0/underscore-min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  // 请根据underscore官方文档，使用_.uniq对数组元素进行不区分大小写去重：
+  var arr = ['Apple', 'orange', 'banana', 'ORANGE', 'apple', 'PEAR'];
+
+  var result = _.uniq(arr, (x) => x.toLowerCase());
+  console.log(result);  // (4) ["Apple", "orange", "banana", "PEAR"]
+</script>
+</body>
+</html>
