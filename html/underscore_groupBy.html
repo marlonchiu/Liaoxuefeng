@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Underscore_collections</title>
+  <script src="https://cdn.bootcss.com/underscore.js/1.9.0/underscore-min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  var scores = [20, 81, 75, 40, 91, 59, 77, 66, 72, 88, 99];
+  var groups = _.groupBy(scores, function (x) {
+    if (x < 60) {
+      return 'C';
+    } else if (x < 80) {
+      return 'B';
+    } else {
+      return 'A';
+    }
+  });
+  console.log(groups); // {C: Array(3), A: Array(4), B: Array(4)}
+  // 结果:
+  // {
+  //   A: [81, 91, 88, 99],
+  //   B: [75, 77, 66, 72],
+  //   C: [20, 40, 59]
+  // }
+</script>
+</body>
+</html>

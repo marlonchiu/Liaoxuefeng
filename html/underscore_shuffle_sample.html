@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Underscore_collections</title>
+  <script src="https://cdn.bootcss.com/underscore.js/1.9.0/underscore-min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  // 注意每次结果都不一样：
+  var result1 = _.shuffle([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  console.log(result1);
+
+  // 注意每次结果都不一样：
+  // 随机选1个：
+  var result2 = _.sample([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]);
+  console.log(result2);
+  // 随机选3个：
+  var result3 = _.sample([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 4);
+  console.log(result3);
+
+</script>
+</body>
+</html>

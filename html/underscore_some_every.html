@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Underscore_collections</title>
+  <script src="https://cdn.bootcss.com/underscore.js/1.9.0/underscore-min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  var obj = {
+    name: 'bob',
+    school: 'No.1 middle school',
+    address: 'xueyuan road'
+  };
+
+  var r1 = _.every(obj, function (value, key) {
+    return key === key.toLowerCase() && value == value.toLowerCase();
+  });
+  var r2 = _.some(obj, function (value, key) {
+    return key === key.toLowerCase() && value == value.toLowerCase();
+  });
+
+  console.log('every key-value are lowercase: ' + r1 ); // every key-value are lowercase: false
+  console.log('some key-value are lowercase: ' + r2);   // some key-value are lowercase: true
+</script>
+</body>
+</html>
