@@ -55,4 +55,79 @@
      注意，千万不要把第三个参数指定为false，否则浏览器将停止响应，直到AJAX请求完成。
      如果这个请求耗时10秒，那么10秒内你会发现浏览器处于“假死”状态。
    * 最后调用 `send()` 方法才真正发送请求。
-   * `GET` 请求不需要参数，`POST` 请求需要把body部分以字符串或者FormData对象传进去。
+   * **`GET` 请求不需要参数，`POST` 请求需要把body部分以字符串或者FormData对象传进去。**
+   
+* 同源策略
+   * 满足协议名、域名、端口号都相同就是同源。特殊的 `localhost` 和 `127.0.0.0`也不是同一个
+   * 处理跨域请求的方案：
+      * 一是通过Flash插件发送HTTP请求，这种方式可以绕过浏览器的安全限制，但必须安装Flash，并且跟Flash交互（麻烦已不用）。
+      * 二是通过在同源域名下架设一个代理服务器来转发，JavaScript负责把请求发送到代理服务器：
+        代理服务器再把结果返回，这样就遵守了浏览器的同源策略。这种方式麻烦之处在于需要服务器端额外做开发。
+      * `JSONP`
+
+* JSONP 
+   * 只能发送GET请求，利用某些标签不受跨域限制的要求，如 `script`；
+   * 其结果通常以函数调用的形式返回。
+   
+      ```javascript
+      function refreshPrice(data) {
+          var p = document.getElementById('test-jsonp');
+          p.innerHTML = '当前价格：' +
+              data['0000001'].name +': ' + 
+              data['0000001'].price + '；' +
+              data['1399001'].name + ': ' +
+              data['1399001'].price;
+      }
+      
+      // 利用script标签发送AJAX请求
+      function getPrice() {
+          var
+              js = document.createElement('script'),
+              head = document.getElementsByTagName('head')[0];
+          
+          js.src = 'http://api.money.126.net/data/feed/0000001,1399001?callback=refreshPrice';   // 请求 url + 'callback = func' 
+          head.appendChild(js);
+      }
+      ```
+
+* CORS
+   * CORS全称 Cross-Origin Resource Sharing ，是HTML5规范定义的如何跨域访问资源。
+
+   * Origin表示本域，也就是浏览器当前页面的域。当JavaScript向外域（如sina.com）发起请求后，
+   浏览器收到响应后，首先检查Access-Control-Allow-Origin是否包含本域，
+   如果是，则此次跨域请求成功，如果不是，则请求失败，JavaScript将无法获取到响应的任何数据。
+   
+   * 服务器端响应头设置：`Access-Control-Allow-Origin: *`
+   * 跨域能否成功，取决于对方服务器是否愿意给你设置一个正确的 `Access-Control-Allow-Origin`
+   
+## Promise
+* `Promise.all()` -- 两个任务并行执行
+
+    ```javascript
+    var p1 = new Promise(function (resolve, reject) {
+        setTimeout(resolve, 500, 'P1');
+    });
+    var p2 = new Promise(function (resolve, reject) {
+        setTimeout(resolve, 600, 'P2');
+    });
+    // 同时执行p1和p2，并在它们都完成后执行then:
+    Promise.all([p1, p2]).then(function (results) {
+        console.log(results); // 获得一个Array: ['P1', 'P2']
+    });
+    ```
+    
+* `Promise.race()` -- 两个任务哪个先返回结果就停止(串行)
+
+```javascript
+var p1 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 500, 'P1');
+});
+var p2 = new Promise(function (resolve, reject) {
+    setTimeout(resolve, 600, 'P2');
+});
+Promise.race([p1, p2]).then(function (result) {
+    console.log(result); // 'P1'
+});
+
+// 由于p1执行较快，Promise的then()将获得结果'P1'。p2仍在继续执行，但执行结果将被丢弃。
+```
