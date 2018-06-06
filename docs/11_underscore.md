@@ -201,3 +201,125 @@ underscore为Array提供了许多工具类方法，可以更方便快捷地操�
     ```  
      
 * 更多完整的函数请参考underscore的文档：http://underscorejs.org/#arrays
+
+
+### Functions
+
+* `bind`
+  `bind()` 可以帮我们把s对象直接绑定在 `fn()` 的 `this` 指针上，以后调用 `fn()` 就可以直接正常调用了：
+
+    ```javascript
+    'use strict';
+    
+    var s = ' Hello  ';
+    var fn = _.bind(s.trim, s);
+    fn();
+    // 输出Hello
+    ```
+
+   结论：当用一个变量 `fn` 指向一个对象的方法时，直接调用 `fn()` 是不行的，因为丢失了this对象的引用。用bind可以修复这个问题。
+   
+* `partial`
+  `partial()` 就是为一个函数创建偏函数
+  创建偏函数的目的是将原函数的某些参数固定住，可以降低新函数调用的难度.
+  
+    ```javascript
+    // 假设我们经常计算2ⁿ，每次都写Math.pow(2, n)就比较麻烦，
+    // 如果创建一个新的函数能直接这样写pow2N(y)就好了，
+    // 这个新函数pow2N(y)就是根据Math.pow(x, y)创建出来的偏函数，它固定住了原函数的第一个参数（始终为2）：
+    
+    var pow2N = _.partial(Math.pow, 2);
+    pow2N(3); // 8
+    pow2N(5); // 32
+    pow2N(10); // 1024
+    
+    // 如果想固定第二个参数,如希望创建一个偏函数cube(x)，计算x³，可以用_作占位符，固定住第二个参数：
+    
+    var cube = _.partial(Math.pow, _, 3);
+    cube(3); // 27
+    cube(5); // 125
+    cube(10); // 1000
+    
+    ```
+    
+* `memoize`
+  用 `memoize()` 就可以自动缓存函数计算的结果
+  
+    ```javascript
+    var factorial = _.memoize(function(n) {
+        console.log('start calculate ' + n + '!...');
+        var s = 1, i = n;
+        while (i > 1) {
+          s = s * i;
+          i --;
+        }
+        console.log(n + '! = ' + s);
+        return s;
+      });
+    
+    // 第一次调用:
+    factorial(10); // 3628800
+    // 注意控制台输出:
+    // start calculate 10!...
+    // 10! = 3628800
+    
+    // 第二次调用:
+    factorial(10); // 3628800
+    // 控制台没有输出
+    
+    // 对于相同的调用，比如连续两次调用factorial(10)，第二次调用并没有计算，而是直接返回上次计算后缓存的结果。不过，当你计算factorial(9)的时候，仍然会重新计算
+    ```
+
+  改进 `factorial()`，让其递归调用：
+  
+    ```javascript
+    var factorial = _.memoize(function(n) {
+        console.log('start calculate ' + n + '!...');
+        if (n < 2) {
+            return 1;
+        }
+        return n * factorial(n - 1);
+    });
+    
+    factorial(10); // 3628800
+    // 输出结果说明factorial(1)~factorial(10)都已经缓存了:
+    // start calculate 10!...
+    // start calculate 9!...
+    // start calculate 8!...
+    // start calculate 7!...
+    // start calculate 6!...
+    // start calculate 5!...
+    // start calculate 4!...
+    // start calculate 3!...
+    // start calculate 2!...
+    // start calculate 1!...
+    
+    factorial(9); // 362880
+    // console无输出
+    ```
+
+
+* `once`
+  `once()` 保证某个函数执行且仅执行一次。保证函数仅调用一次，无论用户点击多少次
+  
+    ```javascript
+    var register = _.once(function () {
+        alert('Register ok!');
+    });
+
+    // 测试效果:
+    register();
+    register();
+    register();   // 只弹出一次 “Register ok!”
+    ```
+  
+* `delay`
+  `delay()` 可以让一个函数延迟执行，效果和 `setTimeout()` 是一样的
+  
+    ```javascript
+    var log = _.bind(console.log, console);
+    _.delay(log, 2000, 'Hello,', 'world!');
+    // 2秒后打印'Hello, world!':
+    ```
+    
+* 更多完整的函数请参考underscore的文档：http://underscorejs.org/#functions

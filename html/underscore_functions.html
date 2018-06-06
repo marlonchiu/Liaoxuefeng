@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Underscore_functions</title>
+  <script src="https://cdn.bootcss.com/underscore.js/1.9.0/underscore-min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+  // memoize
+  function factorial(n) {
+    console.log('start calculate ' + n + '!...');
+    var s = 1, i = n;
+    while (i > 1) {
+      s = s * i;
+      i --;
+    }
+    console.log(n + '! = ' + s);
+    return s;
+  }
+
+  var result = factorial(10);
+  console.log(result); // 3628800
+  /*
+      start calculate 10!...
+      10! = 3628800
+      3628800
+   */
+
+
+  // 用memoize()就可以自动缓存函数计算的结果：
+  var factorial = _.memoize(function(n) {
+    console.log('start calculate ' + n + '!...');
+    var s = 1, i = n;
+    while (i > 1) {
+      s = s * i;
+      i --;
+    }
+    console.log(n + '! = ' + s);
+    return s;
+  });
+
+  // 第一次调用:
+  factorial(10); // 3628800
+  // 注意控制台输出:
+  // start calculate 10!...
+  // 10! = 3628800
+
+  // 第二次调用:
+  factorial(10); // 3628800
+  // 控制台没有输出
+
+  // 对于相同的调用，比如连续两次调用factorial(10)，第二次调用并没有计算，而是直接返回上次计算后缓存的结果。不过，当你计算factorial(9)的时候，仍然会重新计算
+
+
+  // 对于factorial()，使其递归调用
+  var factorialC = _.memoize(function(n) {
+    console.log('start calculate ' + n + '!...');
+    if (n < 2) {
+      return 1;
+    }
+    return n * factorialC(n - 1);
+  });
+
+  factorialC(10); // 3628800
+  // 输出结果说明factorialC(1)~factorialC(10)都已经缓存了:
+  // start calculate 10!...
+  // start calculate 9!...
+  // start calculate 8!...
+  // start calculate 7!...
+  // start calculate 6!...
+  // start calculate 5!...
+  // start calculate 4!...
+  // start calculate 3!...
+  // start calculate 2!...
+  // start calculate 1!...
+
+  factorial(9); // 362880
+  // console无输出
+</script>
+
+
+</body>
+</html>
