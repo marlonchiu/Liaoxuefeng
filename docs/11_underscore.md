@@ -323,3 +323,126 @@ underscore为Array提供了许多工具类方法，可以更方便快捷地操�
     ```
     
 * 更多完整的函数请参考underscore的文档：http://underscorejs.org/#functions
+
+### Objects
+
+* `keys / allKeys`
+   * `keys()` 可以非常方便地返回一个object自身所有的key，但不包含从原型链继承下来的
+   * `allKeys()` 除了object自身的key，还包含从原型链继承下来的：
+   
+      ```javascript
+      function Student(name, age) {
+          this.name = name;
+          this.age = age;
+      }
+      Student.prototype.school = 'No.1 Middle School';
+      var xiaoming = new Student('小明', 20);
+      _.keys(xiaoming); // ['name', 'age']
+      _.allKeys(xiaoming); // ['name', 'age', 'school']
+      _.values(obj); // ['小明', 20]
+      ```
+
+* `values`
+   * 和 `keys()` 类似，`values()` 返回object自身但不包含原型链继承的所有值
+   * 没有 `allValues()`
+   
+* `mapObject`
+  `mapObject()` 就是针对object的map版本：
+
+    ```javascript
+    var obj = { a: 1, b: 2, c: 3 };
+    // 注意传入的函数签名，value在前，key在后:
+    _.mapObject(obj, (v, k) => 100 + v); // { a: 101, b: 102, c: 103 }
+    ```
+
+* `invert`
+  `invert()` 把object的每个key-value来个交换，key变成value，value变成key：
+
+    ```javascript
+    var obj = {
+        Adam: 90,
+        Lisa: 85,
+        Bart: 59
+    };
+    _.invert(obj); // { '59': 'Bart', '85': 'Lisa', '90': 'Adam' }
+    ```
+    
+* `extend / extendOwn`
+   * `extend()` 把多个object的 `key-value` 合并到第一个object并返回：
+     如果有相同的key，后面的object的value将覆盖前面的object的value。
+   * `extendOwn()` 和 `extend()` 类似，但获取属性时忽略从原型链继承下来的属性。
+   
+      ```javascript
+      var a = {name: 'Bob', age: 20};
+      _.extend(a, {age: 15}, {age: 88, city: 'Beijing'}); // {name: 'Bob', age: 88, city: 'Beijing'}
+      
+      // 变量a的内容也改变了：
+      a; // {name: 'Bob', age: 88, city: 'Beijing'}
+      ```
+
+* `clone`
+   * `clone()` 把原有对象的所有属性都复制到新的对象中 
+
+        ```javascript
+        var source = {
+            name: '小明',
+            age: 20,
+            skills: ['JavaScript', 'CSS', 'HTML']
+        };
+        var copied = _.clone(source);
+        console.log(JSON.stringify(copied, null, '  '));
+        
+         // 输出结果如下
+         {
+           "name": "小明",
+           "age": 20,
+           "skills": [
+             "JavaScript",
+             "CSS",
+             "HTML"
+           ]
+         }
+        ``` 
+  
+   * 补充说明：
+    `JSON.stringify(value[, replacer [, space]])` : 一个表示给定值的JSON字符串。
+       - value
+         将要序列化成 一个JSON 字符串的值。
+       - replacer [可选]
+         如果该参数是一个函数，则在序列化过程中，被序列化的值的每个属性都会经过该函数的转换和处理；
+         如果该参数是一个数组，则只有包含在这个数组中的属性名才会被序列化到最终的 JSON 字符串中；
+         如果该参数为null或者未提供，则对象所有的属性都会被序列化；
+       - space [可选]
+         指定缩进用的空白字符串，用于美化输出（pretty-print）；
+         如果参数是个数字，它代表有多少的空格；上限为10。该值若小于1，则意味着没有空格；
+         如果该参数为字符串(字符串的前十个字母)，该字符串将被作为空格；
+         如果该参数没有提供（或者为null）将没有空格。
+
+   * `clone()` 是“浅复制”。所谓“浅复制”就是说，两个对象相同的key所引用的value其实是同一对象
+   
+      ```javascript
+      source.skills === copied.skills; // true
+      // 也就是说，修改source.skills会影响copied.skills。
+      ```
+
+* `isEqual`
+  `isEqual()` 对两个 `object、array` 进行深度比较，如果内容完全相同，则返回true：
+  
+```javascript
+// 比较对象
+var o1 = { name: 'Bob', skills: { Java: 90, JavaScript: 99 }};
+var o2 = { name: 'Bob', skills: { JavaScript: 99, Java: 90 }};
+
+o1 === o2; // false
+_.isEqual(o1, o2); // true
+
+
+// 比较数组
+var a1 = ['Bob', { skills: ['Java', 'JavaScript'] }];
+var a2 = ['Bob', { skills: ['Java', 'JavaScript'] }];
+
+a1 === a2; // false
+_.isEqual(a1, a2); // true
+```
+
+* 更多完整的函数请参考underscore的文档：http://underscorejs.org/#objects

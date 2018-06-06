@@ -11,9 +11,3 @@ underscore与其类似，会把自身绑定到唯一的全局变量 `_`上，这
 
 
 
-### Objects
-
-* `keys / allKeys`
-  
-    
-* 更多完整的函数请参考underscore的文档：http://underscorejs.org/#objects
