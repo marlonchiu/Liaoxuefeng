@@ -446,3 +446,17 @@ _.isEqual(a1, a2); // true
 ```
 
 * 更多完整的函数请参考underscore的文档：http://underscorejs.org/#objects
+
+
+### `Chain`
+  链式调用：underscore提供了把对象包装成能进行链式调用的方法，就是 `chain()` 函数
+  每一步返回的都是包装对象，所以最后一步的结果需要调用 `value()` 获得最终结果。
+  
+```javascript
+var r = _.chain([1, 4, 9, 16, 25])
+         .map(Math.sqrt)
+         .filter(x => x % 2 === 1)
+         .value();
+
+console.log(r); // [1, 3, 5]
+```
