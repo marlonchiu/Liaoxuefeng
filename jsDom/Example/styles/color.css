@@ -20,9 +20,15 @@ a:active {
 }
 header {
   color: #ec8;
+  background-color: #334;
+  border-color: #667;
+}
+header nav {
+  color: #455;
   background-color: #789;
   border-color: #667;
 }
+
 article {
   color: #223;
   background-color: #edc;
