@@ -82,16 +82,44 @@ function resetFields(whichform) {
   }
 }
 
+
+/*
+*  表单验证
+*     1 循环遍历表单的elements数组
+*     2 如果发现required 属性，把相应的元素传递给isFilled 函数
+*     3 如果isFilled函数返回false，显示警告信息，并且validateForm函数返回false
+*     4 如果找到email类型的字段，把相应的元素传递给isEmail函数
+*     5 如果isEmail函数返回false，显示警告信息，并且validateForm函数返回false
+*     6 否则 validateForm函数返回true
+* */
+// function validateForm(whichform) {
+//   for (var i = 0; i < whichform.elements.length; i++) {
+//     var element = whichform.elements[i];
+//     if (element.className.indexOf("required") != -1) {
+//       if (!isFilled(element)) {
+//         alert("Please fill in the "+element.name+" field.");
+//         return false;
+//       }
+//     }
+//     if (element.className.indexOf("email") != -1) {
+//       if (!isEmail(element)) {
+//         alert("The "+element.name+" field must be a valid email address.");
+//         return false;
+//       }
+//     }
+//   }
+//   return true;
+// }
 function validateForm(whichform) {
-  for (var i=0; i<whichform.elements.length; i++) {
+  for (var i = 0; i < whichform.elements.length; i++) {
     var element = whichform.elements[i];
-    if (element.className.indexOf("required") != -1) {
+    if (element.required == 'required') {
       if (!isFilled(element)) {
-        alert("Please fill in the "+element.name+" field.");
+        alert("Please fill in the "+ element.name+" field.");
         return false;
       }
     }
-    if (element.className.indexOf("email") != -1) {
+    if (element.type = 'email') {
       if (!isEmail(element)) {
         alert("The "+element.name+" field must be a valid email address.");
         return false;
@@ -101,6 +129,7 @@ function validateForm(whichform) {
   return true;
 }
 
+// 文本输入验证
 function isFilled(field) {
   if (field.value.length < 1 || field.value == field.defaultValue) {
     return false;
@@ -108,95 +137,39 @@ function isFilled(field) {
     return true;
   }
 }
+// function isFilled(field) {
+//   if (field.value.replace(' ','').length == 0 ) return false;
+//   var placeholder = field.placeholder || field.getAttribLocation('placeholder');
+//   return (field.value != placeholder)
+// }
 
+// 邮件地址验证(有@ 有.)
 function isEmail(field) {
-  if (field.value.indexOf("@") == -1 || field.value.indexOf(".") == -1) {
-    return false;
-  } else {
-    return true;
-  }
+  return (field.value.indexOf("@") != -1 && field.value.indexOf(".") != -1);
 }
 
 
 // 循环遍历所有form对象，并将每一个form对象传给resetFields函数
+/*
+*  如果表单没有验证通过，返回false，不能提交表单
+*  如果submitFormWithAjax函数成功发送了ajax请求返回true，
+*      则让submit事件处理函数返回false，以便阻止浏览器重复提交表单
+*  如果submitFormWithAjax函数没有成功发送ajax请求，
+*      则让submit事件处理函数返回true，让表单继续通过页面提交
+*
+* */
 function prepareForms() {
   for (var i=0; i<document.forms.length; i++) {
     var thisform = document.forms[i];
     resetFields(thisform);
-    // thisform.onsubmit = function() {
-    //   return validateForm(this);
-    // }
-  }
-}
-
-
-// ajax
-function getHTTPObject() {
-  if (typeof XMLHttpRequest == "undefined")
-    XMLHttpRequest = function () {
-      try { return new ActiveXObject("Msxml2.XMLHTTP.6.0"); }
-      catch (e) {}
-      try { return new ActiveXObject("Msxml2.XMLHTTP.3.0"); }
-      catch (e) {}
-      try { return new ActiveXObject("Msxml2.XMLHTTP"); }
-      catch (e) {}
-      return false;
+    thisform.onsubmit = function() {
+      if(!validateForm(this)) return false;
+      var article = document.getElementsByTagName('article')[0];
+      if (submitFormWithAjax(this, article)) return false;
+      return true;
     }
-  return new XMLHttpRequest();
-}
-
-function displayAjaxLoading(element) {
-  // Remove the existing content.
-  while (element.hasChildNodes()) {
-    element.removeChild(element.lastChild);
   }
-  //  Create a loading image.
-  var content = document.createElement("img");
-  content.setAttribute("src","images/loading.gif");
-  content.setAttribute("alt","Loading...");
-  // Append the loading element.
-  element.appendChild(content);
 }
-
-function submitFormWithAjax( whichform, thetarget ) {
-
-  var request = getHTTPObject();
-  if (!request) { return false; }
-
-  // Display a loading message.
-  displayAjaxLoading(thetarget);
-
-  // Collect the data.
-  var dataParts = [];
-  var element;
-  for (var i=0; i<whichform.elements.length; i++) {
-    element = whichform.elements[i];
-    dataParts[i] = element.name + '=' + encodeURIComponent(element.value);
-  }
-  var data = dataParts.join('&');
-
-  request.open('POST', whichform.getAttribute("action"), true);
-  request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-  request.onreadystatechange = function () {
-    if (request.readyState == 4) {
-      if (request.status == 200 || request.status == 0) {
-        var matches = request.responseText.match(/<article>([\s\S]+)<\/article>/);
-        if (matches.length > 0) {
-          thetarget.innerHTML = matches[1];
-        } else {
-          thetarget.innerHTML = '<p>Oops, there was an error. Sorry.</p>';
-        }
-      } else {
-        thetarget.innerHTML = '<p>' + request.statusText + '</p>';
-      }
-    }
-  };
-
-  request.send(data);
-
-  return true;
-};
 
 
 addLoadEvent(focusLabels);

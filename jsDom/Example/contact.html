@@ -7,6 +7,7 @@
   <script type="text/javascript" src="https://cdn.bootcss.com/modernizr/1.7/modernizr-1.7.min.js"></script>
   <script type="text/javascript" src="./scripts/global.js"></script>
   <script type="text/javascript" src="./scripts/contact.js"></script>
+  <script type="text/javascript" src="./scripts/submit.js"></script>
 </head>
 <body>
 <header>
@@ -46,17 +47,17 @@
       <p>
         <label for="name">Name:</label>
         <!--<input type="text" id="name" name="name" placeholder="Your name" required />-->
-        <input type="text" id="name" name="name" value="Your name" required />
+        <input type="text" id="name" name="name" value="Your name" required="required" />
       </p>
       <p>
         <label for="email">Email:</label>
         <!--<input type="email" id="email" name="email" placeholder="Your email address" required/>-->
-        <input type="email" id="email" name="email" value="Your email address" required/>
+        <input type="email" id="email" name="email" value="Your email address" required="required"/>
       </p>
       <p>
         <label for="message">Message:</label>
         <!--<textarea cols="45" rows="7" id="message" name="message" required placeholder="Write your message here."></textarea>-->
-        <textarea cols="45" rows="7" id="message" name="message" required>Write your message here.</textarea>
+        <textarea cols="45" rows="7" id="message" name="message" >Write your message here.</textarea>
       </p>
       <input type="submit" value="Send" />
     </fieldset>
