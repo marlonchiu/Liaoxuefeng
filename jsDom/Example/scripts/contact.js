@@ -102,34 +102,16 @@ function resetFields(whichform) {
 *     5 如果isEmail函数返回false，显示警告信息，并且validateForm函数返回false
 *     6 否则 validateForm函数返回true
 * */
-function validateForm(whichform) {
-  for (var i = 0; i < whichform.elements.length; i++) {
-    var element = whichform.elements[i];
-    if (element.className.indexOf("required") != -1) {
-      if (!isFilled(element)) {
-        alert("Please fill in the "+element.name+" field.");
-        return false;
-      }
-    }
-    if (element.className.indexOf("email") != -1) {
-      if (!isEmail(element)) {
-        alert("The "+element.name+" field must be a valid email address.");
-        return false;
-      }
-    }
-  }
-  return true;
-}
 // function validateForm(whichform) {
 //   for (var i = 0; i < whichform.elements.length; i++) {
 //     var element = whichform.elements[i];
-//     if (element.required == 'required') {
+//     if (element.className.indexOf("required") != -1) {
 //       if (!isFilled(element)) {
-//         alert("Please fill in the "+ element.name+" field.");
+//         alert("Please fill in the "+element.name+" field.");
 //         return false;
 //       }
 //     }
-//     if (element.type = 'email') {
+//     if (element.className.indexOf("email") != -1) {
 //       if (!isEmail(element)) {
 //         alert("The "+element.name+" field must be a valid email address.");
 //         return false;
@@ -138,6 +120,24 @@ function validateForm(whichform) {
 //   }
 //   return true;
 // }
+function validateForm(whichform) {
+  for (var i = 0; i < whichform.elements.length; i++) {
+    var element = whichform.elements[i];
+    if (element.getAttribute("required") == 'required') {
+      if (!isFilled(element)) {
+        alert("Please fill in the "+ element.name+" field.");
+        return false;
+      }
+    }
+    if (element.getAttribute("type") == 'email') {
+      if (!isEmail(element)) {
+        alert("The "+element.name+" field must be a valid email address.");
+        return false;
+      }
+    }
+  }
+  return true;
+}
 
 // 文本输入验证
 function isFilled(field) {
