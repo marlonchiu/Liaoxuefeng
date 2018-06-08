@@ -39,31 +39,48 @@ function focusLabels() {
 *       onblur 事件在用户移出表单字段时触发，此外onblur事件定义之后立即调用以便必要时应用占位符
 * */
 
+// function resetFields(whichform) {
+//   if(Modernizr.input.placeholder) return;
+//   console.log("1111");
+//   for (var i = 0; i < whichform.elements.length; i++) {
+//     var element = whichform.elements[i];
+//     if (element.type == "submit") continue;
+//     var check = element.placeholder || element.getAttribute("placeholder");
+//     if(!check) continue;  // 去掉了 <fieldset> </fieldset>
+//     element.onfocus = function() {
+//       var text = this.placeholder || this.getAttribute("placeholder");
+//       if (this.value == text) {
+//         this.className = '';
+//         this.value = "";
+//       }
+//     }
+//     element.onblur = function() {
+//       if (this.value == "") {
+//         this.className = 'placeholder';
+//         this.value = this.placeholder || this.getAttribute("placeholder");
+//       }
+//     }
+//     element.onblur();
+//   }
+// }
+
 function resetFields(whichform) {
-  if(Modernizr.input.placeholder) return;
-  for (var i=0; i < whichform.elements.length; i++) {
+  for (var i=0; i<whichform.elements.length; i++) {
     var element = whichform.elements[i];
     if (element.type == "submit") continue;
-    var check = element.placeholder || element.getAttribute("placeholder");
-    if(!check) continue;
-
+    if (!element.defaultValue) continue;
     element.onfocus = function() {
-      var text = this.placeholder || this.getAttribute("placeholder");
-      if (this.value == text) {
-        this.className = '';
+      if (this.value == this.defaultValue) {
         this.value = "";
-       }
+      }
     }
     element.onblur = function() {
       if (this.value == "") {
-        this.className = 'placeholder';
-        this.value = this.placeholder || this.getAttribute("placeholder");
+        this.value = this.defaultValue;
       }
     }
-    element.onblur();
   }
 }
-
 
 function validateForm(whichform) {
   for (var i=0; i<whichform.elements.length; i++) {
