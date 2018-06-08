@@ -12,7 +12,7 @@
 function focusLabels() {
   if (!document.getElementsByTagName) return false;
   var labels = document.getElementsByTagName("label");
-  for (var i=0; i<labels.length; i++) {
+  for (var i = 0; i<labels.length; i++) {
     if (!labels[i].getAttribute("for")) continue;
     labels[i].onclick = function() {
       var id = this.getAttribute("for");
@@ -65,7 +65,7 @@ function focusLabels() {
 // }
 
 function resetFields(whichform) {
-  for (var i=0; i<whichform.elements.length; i++) {
+  for (var i = 0; i<whichform.elements.length; i++) {
     var element = whichform.elements[i];
     if (element.type == "submit") continue;
     if (!element.defaultValue) continue;
@@ -92,34 +92,16 @@ function resetFields(whichform) {
 *     5 如果isEmail函数返回false，显示警告信息，并且validateForm函数返回false
 *     6 否则 validateForm函数返回true
 * */
-// function validateForm(whichform) {
-//   for (var i = 0; i < whichform.elements.length; i++) {
-//     var element = whichform.elements[i];
-//     if (element.className.indexOf("required") != -1) {
-//       if (!isFilled(element)) {
-//         alert("Please fill in the "+element.name+" field.");
-//         return false;
-//       }
-//     }
-//     if (element.className.indexOf("email") != -1) {
-//       if (!isEmail(element)) {
-//         alert("The "+element.name+" field must be a valid email address.");
-//         return false;
-//       }
-//     }
-//   }
-//   return true;
-// }
 function validateForm(whichform) {
   for (var i = 0; i < whichform.elements.length; i++) {
     var element = whichform.elements[i];
-    if (element.required == 'required') {
+    if (element.className.indexOf("required") != -1) {
       if (!isFilled(element)) {
-        alert("Please fill in the "+ element.name+" field.");
+        alert("Please fill in the "+element.name+" field.");
         return false;
       }
     }
-    if (element.type = 'email') {
+    if (element.className.indexOf("email") != -1) {
       if (!isEmail(element)) {
         alert("The "+element.name+" field must be a valid email address.");
         return false;
@@ -128,6 +110,24 @@ function validateForm(whichform) {
   }
   return true;
 }
+// function validateForm(whichform) {
+//   for (var i = 0; i < whichform.elements.length; i++) {
+//     var element = whichform.elements[i];
+//     if (element.required == 'required') {
+//       if (!isFilled(element)) {
+//         alert("Please fill in the "+ element.name+" field.");
+//         return false;
+//       }
+//     }
+//     if (element.type = 'email') {
+//       if (!isEmail(element)) {
+//         alert("The "+element.name+" field must be a valid email address.");
+//         return false;
+//       }
+//     }
+//   }
+//   return true;
+// }
 
 // 文本输入验证
 function isFilled(field) {
@@ -165,12 +165,13 @@ function prepareForms() {
     thisform.onsubmit = function() {
       if(!validateForm(this)) return false;
       var article = document.getElementsByTagName('article')[0];
+      // 如果submitFormWithAjax函数成功发送了Ajax请求并返回true，则让submit事件处理函数返回false，以便阻止浏览器重复提交表单
       if (submitFormWithAjax(this, article)) return false;
+      // 否则，说明submitFormWithAjax没有发送成功Ajax请求，因而让submit事件处理函数返回true，让表单像什么都没有发生一样继续通过页面提交
       return true;
     }
   }
 }
-
 
 addLoadEvent(focusLabels);
 addLoadEvent(prepareForms);

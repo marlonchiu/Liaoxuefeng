@@ -28,7 +28,11 @@ function displayAjaxLoading(element) {
 }
 
 function submitFormWithAjax( whichform, thetarget ) {
-
+  // 调用displayAjaxLoading函数，删除目标元素的子元素，并添加loading.gif图像
+  // 把表单的值组织成URL编码的字符串，以便通过Ajax请求发送
+  // 创建方法为POST的Ajax请求，把表单的值发送给submit.html
+  // 如果请求成功，解析响应并在目标元素中显示结果
+  // 如果请求失败，显示错误消息
   var request = getHTTPObject();
   if (!request) { return false; }
 
@@ -41,6 +45,7 @@ function submitFormWithAjax( whichform, thetarget ) {
   var element;
   for (var i = 0; i < whichform.elements.length; i++) {
     element = whichform.elements[i];
+    // 将表单元素拼成URL中传递的信息，同时对表单元素的值进行了适用于URL的转码
     dataParts[i] = element.name + '=' + encodeURIComponent(element.value);
   }
 
@@ -52,12 +57,16 @@ function submitFormWithAjax( whichform, thetarget ) {
   request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
   request.onreadystatechange = function () {
+    // 当访问请求处理完成，接收响应也完成后
     if (request.readyState == 4) {
       if (request.status == 200 || request.status == 0) {
-
+        // 注意下面正则中使用了捕获组的定义
         // 正则表达式 /<article>([\s\S]+)<\/article>/ 表示<article>开头结尾 中间跟一个或者多个空或者非空白字符
         var matches = request.responseText.match(/<article>([\s\S]+)<\/article>/);
         if (matches.length > 0) {
+          // 匹配结果是一个数组，第一个数组元素是与整个模式完整匹配的部分
+          // 匹配结果数组的第二个元素（索引为1），是responseText中与捕获组中的模式匹配的部分。
+          // 因为本例中只定义了一个捕获组，所以matches也只包含两个元素。
           thetarget.innerHTML = matches[1];
         } else {
           thetarget.innerHTML = '<p>Oops, there was an error. Sorry.</p>';
