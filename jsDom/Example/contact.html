@@ -6,7 +6,7 @@
   <link rel="stylesheet" type="text/css" media="screen" href="styles/basic.css">
   <script type="text/javascript" src="https://cdn.bootcss.com/modernizr/1.7/modernizr-1.7.min.js"></script>
   <script type="text/javascript" src="./scripts/global.js"></script>
-  <script type="text/javascript" src="./scripts/live.js"></script>
+  <script type="text/javascript" src="./scripts/contact.js"></script>
 </head>
 <body>
 <header>
@@ -23,6 +23,24 @@
 </header>
 <article>
   <h1>Contact the band</h1>
+  <!--
+    表单中的三个字段：name、email、message。对应有一个<label>标签
+    作为增进可访问性的元素，label非常有用，其通过for属性把一小段文本关联到表单的一个字段
+
+    很多浏览器会给label元素添加默认行为：如果label中的文本被点击，关联的表单字段就会获得焦点。
+
+
+    form对象
+    文档中的每个表单都有一个form对象，每个form对象都有一个elements.length属性
+        表单元素的个数  form.elements.length    --- 只关注input、textarea等
+        表单元素的数组  form.elements    --- 返回包含input、select、textarea等表单字段
+
+        elements数组的每个表单元素都有自己的一组属性
+           value 属性中保存的就是表单元素的当前值
+               element.value   等价于 element.getAttribute("value")
+
+
+  -->
   <form method="post" action="submit.html">
     <fieldset>
       <p>
