@@ -38,3 +38,17 @@ scripts中的功能函数：
   创建方法为POST的Ajax请求，把表单的值发送给submit.html； 
   如果请求成功，解析响应并在目标元素中显示结果； 
   如果请求失败，显示错误消息。
+  
+  
+其他
+* 在使用HTML5元素时，建议在文档的<head>元素中包含Modernizer库，用来对浏览器是否支持H5标签进行检验
+* 取得当前页面的URL，可以使用 `window.location.href` 。
+* HTML DOM中的每个表单元素都是一个form对象，
+每个form对象都有一个form.elements.length属性，需要注意的是这个属性返回的是表单中包含的表单元素的个数（不等同的所包含的节点个数）。
+element.value可得到表单元素的当前值。
+* 在通过POST请求发送数据时，需要将表单中每个字段的值都编码为数据字符串（name=value&name2=value2），
+是使用javascript的encodeURIComponent函数把这些值编码成URL安全的字符串。这会把有歧义的字符转换为对应的ASCII编码。
+* `var matches = request.responseText.match(/<article>([\s\S]+)<\/article>/);`  正则中使用了捕获组的定义。
+匹配结果是一个数组，第一个数组元素是与整个模式完整匹配的部分；
+匹配结果数组的第二个元素（索引为1），是responseText中与捕获组中的模式匹配的部分； 
+因为本例中只定义了一个捕获组，所以matches也只包含两个元素。
