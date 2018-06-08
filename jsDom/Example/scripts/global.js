@@ -38,10 +38,12 @@ function addClass(element,value) {
 *   取得导航列表中的所有链接
 *   循环遍历链接
 *   如果发现了与当前URL匹配的链接，为其添加here类
+*
+*   突出超链接 添加挂钩就可以对不同的页面进行不同的操作
 * */
 function highlightPage() {
   if(!document.getElementsByTagName) {
-    return false;
+
   }
   if(!document.getElementById) {
     return false;
@@ -55,7 +57,7 @@ function highlightPage() {
   if(navs.length == 0) {
     return false;
   }
-  
+
   // 取得导航链接，循环遍历
   var links = navs[0].getElementsByTagName("a");
   var linkurl;

@@ -20,7 +20,7 @@ body {
 header {
   background-image: url("../images/guitarist.gif");
   background-repeat: no-repeat;
-  background-position: bottom right;
+  background-position: bottom right; /*父窗体不是body而是 header 定义背景图片的位置*/
   border-width: .1em;
   border-style: solid;
   border-bottom-width: 0;
