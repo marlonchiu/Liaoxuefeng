@@ -32,7 +32,7 @@
    */
   function delegateEvent(parentSelector, targetSelector, events, fn) {
 
-    // 事件绑定兼容性处理
+    // 事件绑定浏览器兼容性处理
     function addEvent(ele, type, handle) {
       if(ele.addEventListener) {
         ele.addEventListener(type, handle, false);
