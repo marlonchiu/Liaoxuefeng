@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>css实现自适应的正方形</title>
+  <style type="text/css">
+    .square-shape1 {
+      width: 50%;
+      height: 50vw;
+      border: 1px solid #f00;
+    }
+    .square-shape2 {
+      width: 50%;
+      height: 0;
+      padding-top: 50%;
+      border: 1px solid #f00;
+    }
+    .square-shape3 {
+      width: 30%;
+      height: 0;
+      padding-bottom: 30%;
+      border: 1px solid #f0f;
+    }
+    .square-shape4 {
+      width: 100%;
+      overflow: hidden;
+      border: 1px solid #f00;
+    }
+    .square-shape4:after {
+      content: '';
+      display: block;
+      margin-top: 100%;
+    }
+
+    .square-shape5 {
+      width: 30%;
+      max-width: 200px;
+      border: 1px solid #f00;
+    }
+    .square-shape5:after {
+      content: '';
+      display: block;
+      padding-top: 100%;
+    }
+    .square-shape6{
+      overflow: hidden;
+      width: 50%;
+      background-color: #cfa;
+    }
+    .content6{
+      margin-top: 100%;
+    }
+    .square-shape7 {
+      width: 30%;
+      border: 1px solid #f00;
+    }
+    .square-shape7:after {
+      content: '';
+      display: block;
+      padding-bottom: 100%;
+    }
+    .content7 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
+<body>
+<!--vm单位-->
+<!--<div class="square-shape1">这是一个可以自适应的正方形，此法适用于移动端web页面。</div>-->
+
+<!--padding-top实现-->
+<!--<div class="square-shape2">这是一个可以自适应的正方形，设置高度避免被内容撑开多余的高度。奇怪的是，内容在框框外面。</div>-->
+
+<!--padding-bottom实现-->
+<div class="square-shape3">这是一个可以自适应的正方形，此法很好用，有内容也是正方形。</div>
+
+<!--伪元素的margin-top-->
+<!--<div class="square-shape4">这里如果有内容，就不是正方形喽，限制height也没有用。</div>  &lt;!&ndash;调试检查宽高&ndash;&gt;-->
+
+<!--伪元素的padding-top-->
+<!--<div class="square-shape5">这里如果有内容，就不是正方形喽。</div> &lt;!&ndash;调试检查宽高&ndash;&gt;-->
+
+<!--子元素margin-top-->
+<!--<div class="square-shape6">-->
+  <!--<div class="content6">这是一个可以自适应的正方形(这里如果有内容，就不是正方形喽)</div>-->
+<!--</div>-->
+
+<!--伪元素的padding-bottom，内嵌absolute元素-->
+<div class="square-shape7">
+  <div class="content7">这是一个可以自适应的正方形</div>
+</div>
+
+</body>
+</html>
